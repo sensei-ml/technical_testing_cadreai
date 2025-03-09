@@ -1,5 +1,5 @@
 from utils.process_data import emails_to_dataframe
-from model.manager import EmailAutomationSystem, EmailProcessor
+from model.manager import EmailAutomationSystem, EmailProcessor, MockService
 
 def run():
     sample_emails = [
@@ -39,8 +39,29 @@ def run():
             "timestamp": "2024-03-15T15:00:00Z"
         }
     ]
+    '''
     data = emails_to_dataframe(emails = sample_emails, columns_to_preprocess = ['subject', 'body'])
-    print(data)
+    print(data)'
+    '''
+    def run_demonstration():
+        """Run a demonstration of the complete system."""
+        # Initialize the system
+        processor = EmailProcessor()
+        automation_system = EmailAutomationSystem(processor)
+
+        # Process all sample emails
+        results = []
+        for email in sample_emails:
+            logger.info(f"\nProcessing email {email['id']}...")
+            result = automation_system.process_email(email)
+            results.append(result)
+
+        # Create a summary DataFrame
+        df = pd.DataFrame(results)
+        print("\nProcessing Summary:")
+        print(df[["email_id", "success", "classification", "response_sent"]])
+
+        return df
 
 if __name__ == '__main__':
     run()
