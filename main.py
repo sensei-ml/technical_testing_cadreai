@@ -39,12 +39,11 @@ def run_demonstration():
             "timestamp": "2024-03-15T15:00:00Z"
         }
     ]
-    
-    data = emails_to_dataframe(emails = sample_emails, columns_to_preprocess = ['subject', 'body'])  
+    data = emails_to_dataframe(emails = sample_emails, columns_to_preprocess = ['subject', 'body'])
     processor = EmailProcessor()
     automation_system = EmailAutomationSystem(processor)
     results = automation_system.process_all_emails(data)
     print(results)
-
+    
 if __name__ == '__main__':
     run_demonstration()

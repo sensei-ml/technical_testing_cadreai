@@ -1,8 +1,8 @@
+import json
 import nltk
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from nltk.stem import WordNetLemmatizer
-import json
 import pandas as pd
 
 def emails_to_dataframe(emails: list, columns_to_preprocess: list) -> pd.DataFrame:
@@ -18,7 +18,7 @@ def emails_to_dataframe(emails: list, columns_to_preprocess: list) -> pd.DataFra
     data_frame = pd.DataFrame(emails)
     data_frame = clean_dataframe_text(data_frame, columns_to_preprocess)
     data_frame = clear_index_column(data_frame)
-    #export_data(data = data_frame, path = 'llm-email-classifier-test/data/emails.csv')
+    export_data(data = data_frame, path = 'data/emails.csv')
     return data_frame
 
 def export_data(data: pd.DataFrame, path: str) -> None:
@@ -31,7 +31,13 @@ def export_data(data: pd.DataFrame, path: str) -> None:
     '''
     data.to_csv(path, index=False)
 
-def download_nltk_resources():
+def download_nltk_resources() -> None:
+    '''
+    Download the necessary NLTK resources for text processing.
+
+    Args:
+        None
+    '''
     resources = ['punkt', 'stopwords', 'wordnet']
     for resource in resources:
         try:
@@ -40,7 +46,16 @@ def download_nltk_resources():
             print(f"Downloading NLTK resource: {resource}...")
             nltk.download(resource)
 
-def preprocess_text(text):
+def preprocess_text(text: str) -> str:
+    '''
+    Lemmatizes and removes stopwords from the input text.
+    
+    Args:
+        text (str): Input text to be preprocessed.
+    
+    Returns:
+        str: Preprocessed text.
+    '''
     if pd.isnull(text):
         return text
     download_nltk_resources()
@@ -54,14 +69,33 @@ def preprocess_text(text):
     ]
     return ' '.join(processed_tokens)
 
-def clean_dataframe_text(df, columns):
+def clean_dataframe_text(df: pd.DataFrame, columns: list) -> pd.DataFrame:
+    '''
+    Preprocess text data in specified columns of a DataFrame.
+    
+    Args:
+        df (pd.DataFrame): Input DataFrame containing text data.
+        columns (list): List of column names to preprocess.
+    
+    Returns:
+        pd.DataFrame: DataFrame with preprocessed text data.
+    '''
     download_nltk_resources()
     for col in columns:
         if col in df.columns:
             df[col] = df[col].apply(preprocess_text)
     return df
 
-def clear_index_column(df):
+def clear_index_column(df: pd.DataFrame) -> pd.DataFrame:
+    '''
+    Convert the index column to integer type.
+
+    Args:
+        df (pd.DataFrame): Input DataFrame.
+    
+    Returns:
+        pd.DataFrame: DataFrame with index column converted to integer type.
+    '''
     df['id'] = df['id'].astype(int)
     return df
 

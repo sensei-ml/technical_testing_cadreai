@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 from openai import OpenAI
 import logging
 from datetime import datetime
-import pandas as pd 
+import pandas as pd
 
 class EmailProcessor:
     def __init__(self):
@@ -30,7 +30,7 @@ class EmailProcessor:
         try:
             input_prompt = f'''Classify: {email["subject"]}; {email["body"]} 
                             Categories: {", ".join(self.valid_categories)}
-                            Just the category name'''
+                            Just the category name, if it's "other" return that'''
             response = self.client.chat.completions.create(
                 model='gpt-4o-mini-2024-07-18',
                 messages=[{'role': 'user', 'content': input_prompt}],
@@ -195,28 +195,19 @@ class EmailAutomationSystem:
         """
         results = []
         for email in emails.to_dict(orient="records"):
-            if not email.get("subject") or not email.get("body"):
-                self.logger.error(f"Email {email['id']} subject or body is missing.")
-                results.append({"error": "Email subject or body is missing.", "email": email})
+            if not email.get('subject') or not email.get('body'):
+                self.logger.error(f"Email {email.get('id', 'unknown')} is missing subject or body. Skipping...")
                 continue
 
-            try:
-                start_time = datetime.now()
-                self.logger.info(f"Processing email {email['id']}...")
-                result = self.process_email(email)
-                end_time = datetime.now()
-                processing_time = (end_time - start_time).total_seconds()
-                self.logger.info(f"Processed email {email['id']} in {processing_time} seconds")
-                result['processing_time'] = processing_time
-                results.append(result)
-            except Exception as e:
-                self.logger.error(f"Error processing email {email['id']}: {e}")
-                results.append({"error": str(e), "email": email})
+            start_time = datetime.now()
+            self.logger.info(f"Processing email {email['id']}...")
+            result = self.process_email(email)
+            end_time = datetime.now()
+            processing_time = (end_time - start_time).total_seconds()
+            self.logger.info(f"Processed email {email['id']} in {processing_time} seconds")
+            result['processing_time'] = processing_time
+            results.append(result)
 
-        try:
-            report = pd.DataFrame(results)
-            report.to_csv('llm-email-classifier-test/report/report.csv', index=False)
-        except Exception as e:
-            self.logger.error(f"Error saving report: {e}")
-
+        report = pd.DataFrame(results)
+        report.to_csv('report/report.csv', index=False)
         return report
