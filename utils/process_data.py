@@ -18,7 +18,7 @@ def emails_to_dataframe(emails: list, columns_to_preprocess: list) -> pd.DataFra
     data_frame = pd.DataFrame(emails)
     data_frame = clean_dataframe_text(data_frame, columns_to_preprocess)
     data_frame = clear_index_column(data_frame)
-    export_data(data = data_frame, path = 'llm-email-classifier-test/data/emails.csv')
+    #export_data(data = data_frame, path = 'llm-email-classifier-test/data/emails.csv')
     return data_frame
 
 def export_data(data: pd.DataFrame, path: str) -> None:
