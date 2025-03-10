@@ -17,6 +17,7 @@ def emails_to_dataframe(emails: list, columns_to_preprocess: list) -> pd.DataFra
     '''
     data_frame = pd.DataFrame(emails)
     data_frame = clean_dataframe_text(data_frame, columns_to_preprocess)
+    data_frame = clear_index_column(data_frame)
     export_data(data = data_frame, path = 'llm-email-classifier-test/data/emails.csv')
     return data_frame
 
@@ -58,6 +59,10 @@ def clean_dataframe_text(df, columns):
     for col in columns:
         if col in df.columns:
             df[col] = df[col].apply(preprocess_text)
+    return df
+
+def clear_index_column(df):
+    df['id'] = df['id'].astype(int)
     return df
 
 
