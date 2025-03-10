@@ -204,3 +204,17 @@ Downloading NLTK resource: wordnet...
 4          inquiry  {'id': 10, 'from': 'event.organizer@example.co...  Of course! What would you like to inquire abou...         1.947845
 5            other  {'id': 11, 'from': 'mystery.sender@example.com...  It seems like your message is incomplete. Coul...         1.971632
 ```
+
+# Design decisions and challenges.
+
+## Design desicions
+
+- OOP Solid implementation according to a typical machine learning proyect folder structure.
+- Modularization of the project respecting the general structure of the provided code base and the Python best Practices.
+- Proyect design to centralize the execution in the main.py script; explicit pipilne flow in one single file.
+- Use of GPT4 or mini, an affordable alternative and up to the case of the project. 
+- Optimization of the cost of using the OpenAI API: Lemmatization and stopwords removing with NLTK. Reduce the number of OpenAI tokens usage.
+
+## Challenges
+
+- Implement the error handling with a logic order and integrate with the logger.
