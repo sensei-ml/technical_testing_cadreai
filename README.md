@@ -46,7 +46,7 @@ The LLM Email Classifier is a system designed to classify and respond to emails 
     - Create a `.env` file in the root directory.
     - Add your OpenAI API key to the `.env` file:
         ```
-        OPENAI_API_KEY=your_openai_api_key
+        OPENAI_API_KEY=OPENAI_API_KEY
         ```
 
 ## Usage
