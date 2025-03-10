@@ -212,7 +212,7 @@ Downloading NLTK resource: wordnet...
 - OOP Solid implementation according to a typical machine learning proyect folder structure.
 - Modularization of the project respecting the general structure of the provided code base and the Python best Practices.
 - Proyect design to centralize the execution in the main.py script; explicit pipilne flow in one single file.
-- Use of GPT4 or mini, an affordable alternative and up to the case of the project. 
+- Use of GPT-4o mini, an affordable alternative and up to the case of the project. 
 - Optimization of the cost of using the OpenAI API: Lemmatization and stopwords removing with NLTK. Reduce the number of OpenAI tokens usage.
 
 ## Challenges
