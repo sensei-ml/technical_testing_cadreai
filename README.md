@@ -1,5 +1,7 @@
 # LLM Email Classifier
 
+by: Michael Leonardo Aguas.
+
 ## Overview
 
 The LLM Email Classifier is a system designed to classify and respond to emails using a language model. It processes emails, classifies them into predefined categories, and generates automated responses based on the classification.
